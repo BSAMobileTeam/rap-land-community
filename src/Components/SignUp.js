@@ -39,15 +39,16 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(3),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
 }));
 
-export default function SignIn() {
+export default function SignUp() {
     const classes = useStyles();
+
     return (
         <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -56,35 +57,63 @@ export default function SignIn() {
             <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-            Se connecter
+            Créer un compte
             </Typography>
             <form className={classes.form} noValidate>
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Adresse Email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-            />
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Mot de passe"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-            />
-            <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Se souvenir de moi"
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Adresse Email"
+                    name="email"
+                    autoComplete="email"
+                />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="pseudonyme"
+                    label="Pseudonyme"
+                    name="pseudonyme"
+                    autoComplete="pseudonyme"
+                />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Mot de passe"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                />
+                </Grid>
+                <Grid item xs={12}>
+                <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="passwordConfirmation"
+                    label="Confirmez votre mot de passe"
+                    type="password"
+                    id="passwordConfirmation"
+                    autoComplete="current-password"
+                />
+                </Grid>
+                {/* <Grid item xs={12}>
+                <FormControlLabel
+                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    label="I want to receive inspiration, marketing promotions and updates via email."
+                />
+                </Grid> */}
+            </Grid>
             <Button
                 type="submit"
                 fullWidth
@@ -92,23 +121,18 @@ export default function SignIn() {
                 color="primary"
                 className={classes.submit}
             >
-                Se connecter
+                Créer un compte
             </Button>
-            <Grid container>
-                <Grid item xs>
-                <Link href="#" variant="body2">
-                    Mot de passe oublié ?
-                </Link>
-                </Grid>
+            <Grid container justify="flex-end">
                 <Grid item>
                 <Link href="#" variant="body2">
-                    {"S'inscrire"}
+                    J'ai déjà un compte. Se connecter
                 </Link>
                 </Grid>
             </Grid>
             </form>
         </div>
-        {/* <Box mt={8}>
+        {/* <Box mt={5}>
             <Copyright />
         </Box> */}
         </Container>

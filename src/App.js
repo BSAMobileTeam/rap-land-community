@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
 import SignIn from './Components/SignIn';
+import SignUp from './Components/SignUp';
 
 function App() {
   return (
-    <SignIn></SignIn>
+    <SignUp></SignUp>
     /*<div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
