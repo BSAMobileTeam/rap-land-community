@@ -3,14 +3,9 @@ import {
 	Theme,
 	AppBar,
 	Toolbar,
-	IconButton,
 	Typography,
-	Button
 } from '@material-ui/core'
-import {
-	Menu as MenuIcon
-} from '@material-ui/icons'
-import { createStyles, makeStyles, useTheme} from '@material-ui/styles'
+import { createStyles, makeStyles } from '@material-ui/styles'
 import logo from '../assets/images/black_logo.png'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -21,9 +16,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 		backgroundColor: theme.palette.primary.main,
 		height: theme.appBar.height
 	},
+	title: {
+		flexGrow: 1,
+		textAlign: "center",
+		zIndex: 1000,
+		color: theme.palette.common.white
+	},
 	logo: {
 		maxWidth: 102,
-      	marginRight: '10px'
 	}
 }))
 
@@ -33,7 +33,6 @@ type TopBarProps = {
 
 export default function TopBar(props: TopBarProps) {
 	const classes = useStyles()
-	const theme = useTheme()
 
 	return (
 		<div className={classes.root} >
@@ -42,6 +41,9 @@ export default function TopBar(props: TopBarProps) {
 			>
 			<Toolbar>
 				<img src={logo} className={classes.logo}/>
+				<Typography variant="h6" className={classes.title}>
+            		Rap Land Community
+          		</Typography>
 			</Toolbar>
 			</AppBar>
 	  </div>

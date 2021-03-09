@@ -16,6 +16,7 @@ declare module '@material-ui/core/styles/createMuiTheme' {
 }
 
 const customTheme = createMuiTheme({
+  spacing: 4, 
   palette: {
     common: {
       black: 'rgb(26, 26, 26)',
