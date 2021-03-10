@@ -8,7 +8,8 @@ import {
 	Input,
 	Button,
 	Typography,
-	Link
+	Link,
+	Slide
 } from '@material-ui/core'
 import { createStyles, makeStyles } from '@material-ui/styles'
 
@@ -50,58 +51,61 @@ export default function Registration(props: RegistrationProps) {
     } = props
 
 	return (
-		<Paper
-			elevation={3}
-			className={classes.root}
-		>
-			<FormControl
-				required
-				fullWidth
-				margin="normal"
+		<Slide direction="up" in={true} mountOnEnter unmountOnExit>
+			<Paper
+				elevation={3}
+				className={classes.root}
 			>
-                <TextField
+				<FormControl
 					required
-					variant="outlined"
-					label="Email"
-					className={classes.textField}
-				/>
-				<TextField
-					required
-					variant="outlined"
-					label="Username"
-					className={classes.textField}
-				/>
-				<TextField
-					required
-					variant="outlined"
-					label="Password"
-					type="password"
-					className={classes.textField}
-				/>
-                <TextField
-					required
-					variant="outlined"
-					label="Confirm password"
-					type="password"
-					className={classes.textField}
-				/>
-				<Button
-					size="large"
-					variant="contained"
-					color="primary"
-					className={classes.button}
+					fullWidth
+					margin="normal"
 				>
-					Register
-				</Button>
-				<Typography className={classes.link}>
-					<Link
-                        href="#"
-                        onClick={linkOnClickHandler}
-                    >
-						{"I have an account. Sign in."}
-					</Link>
-				</Typography>
-			</FormControl>
-		</Paper>
+					<TextField
+						required
+						variant="outlined"
+						label="Email"
+						className={classes.textField}
+					/>
+					<TextField
+						required
+						variant="outlined"
+						label="Username"
+						className={classes.textField}
+					/>
+					<TextField
+						required
+						variant="outlined"
+						label="Password"
+						type="password"
+						className={classes.textField}
+					/>
+					<TextField
+						required
+						variant="outlined"
+						label="Confirm password"
+						type="password"
+						className={classes.textField}
+					/>
+					<Button
+						size="large"
+						variant="contained"
+						color="primary"
+						className={classes.button}
+					>
+						Register
+					</Button>
+					<Typography className={classes.link}>
+						<Link
+							href="#"
+							onClick={linkOnClickHandler}
+						>
+							{"I have an account. Sign in."}
+						</Link>
+					</Typography>
+				</FormControl>
+			</Paper>
+		</Slide>
+
 	)
 }

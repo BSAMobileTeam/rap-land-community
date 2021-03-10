@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
 	Theme,
 	Grid,
-	Box
+	Box,
 } from '@material-ui/core'
 import { createStyles, makeStyles, ThemeProvider } from '@material-ui/styles'
 import TopBar from './TopBar'

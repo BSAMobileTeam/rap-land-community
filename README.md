@@ -44,3 +44,15 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Environment variables
+
+The configuration is done through the environment variables.
+It can also be done within a `.env` file.
+
+See [configDotEnv.ts](src/utils/configDotEnv.ts) for more details.
+
+| Variable                                | Description     | Default value          | Type   |
+|-----------------------------------------|-----------------|------------------------|--------|
+| `SERVER_BASE_URL`                       | Server base URL | http://localhost:8080/ | String |
+
