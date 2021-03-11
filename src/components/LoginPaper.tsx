@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, FunctionComponent } from 'react'
 import {
 	Theme,
 	Paper,
@@ -19,13 +19,19 @@ import {
 	List,
 	Zoom,
 	Grow,
-	Fade
+	Fade,
+	CircularProgress,
+	InputAdornment,
+	IconButton
 } from '@material-ui/core'
 import { createStyles, makeStyles } from '@material-ui/styles'
 import axios from '../utils/axios'
 import { AxiosResponse, AxiosError } from 'axios'
-import { TransitionProps } from '@material-ui/core/transitions';
 
+import {
+	Visibility as VisibilityIcon,
+	VisibilityOff as VisibilityOffIcon
+} from '@material-ui/icons'
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
 	root: {
@@ -35,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 		position: 'relative',
 		margin: '10px'
 	},
-	button: {
+	loginButton: {
 		marginRight: theme.spacing(16),
 		marginLeft: theme.spacing(16)
 	},
@@ -47,19 +53,20 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 		width: "100%",
 		display: "inline-block",
 		textAlign: "center"
+	},
+	circualProgress: {
+		color: theme.palette.common.white		
+	},
+	registerButton: {
+		marginTop: theme.spacing(6),
+		marginRight: theme.spacing(4),
+		marginLeft: theme.spacing(40)
 	}
 }))
 
 type LoginPaperProps = {
-    linkOnClickHandler: () => void
+    secondaryButtonOnClickHandler: () => void
 }
-
-const DialogTransition = React.forwardRef(function Transition(
-	props: TransitionProps & { children?: React.ReactElement<any, any> },
-	ref: React.Ref<unknown>,
-  ) {
-	return <Fade ref={ref} {...props} />;
-})
 
 export default function LoginPaper(props: LoginPaperProps) {
 	const classes = useStyles()
@@ -68,9 +75,11 @@ export default function LoginPaper(props: LoginPaperProps) {
 		password: ''
 	})
 	const [errors, setErrors] = useState([''])
+	const [loading, setLoading] = useState((false))
+	const [showPassword, setShowPassword] = useState(false)
 
 	const {
-		linkOnClickHandler
+		secondaryButtonOnClickHandler
 	} = props
 
 	const updateUsername = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -85,13 +94,17 @@ export default function LoginPaper(props: LoginPaperProps) {
 		setErrors(errors.filter(value => value !== 'password'))
 		setFormData({
 			...formData,
-			password: event.target.value
+			password: event.target.value,			
 		})
 	}
 
 	const login = () => {
+		const newErrors = ['']
+		formData.username === '' && newErrors.push('emptyUsername') && setErrors(newErrors)
+		formData.password === '' && newErrors.push('emptyPassword') && setErrors(newErrors)
 		if (formData.username === '' || formData.password === '')
 			return
+		setLoading(true)
 		axios.post('/user/login/', formData)
 		.then((result: AxiosResponse<any>) => {
 			console.log(result)
@@ -100,7 +113,6 @@ export default function LoginPaper(props: LoginPaperProps) {
 			if (error === undefined || error.response === undefined)
 				return
 			const { response } = error
-			const newErrors = ['']
 			switch (response.status) {
 				case 404:
 					newErrors.push('username')
@@ -119,6 +131,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 				...formData,
 				password: ''
 			})
+			setLoading(false)
 		})
 	}
 	return (
@@ -135,43 +148,57 @@ export default function LoginPaper(props: LoginPaperProps) {
 					>
 						<TextField
 							value={formData.username}
-							error={errors.includes('username')}
-							required
+							error={errors.includes('username') || errors.includes('emptyUsername')}
 							variant="outlined"
-							label="Username"
+							label="Nom d'utilisateur"
 							className={classes.textField}
 							onChange={updateUsername}
 						/>
 						<TextField
 							value={formData.password}
-							error={errors.includes('password')}
-							required
+							error={errors.includes('password') || errors.includes('emptyPassword') }
 							variant="outlined"
-							label="Password"
-							type="password"
+							label="Mot de passe"
+							type={showPassword ? "text" : "password"}
 							className={classes.textField}
 							onChange={updatePassword}
+							InputProps={{
+								endAdornment: (
+								  <InputAdornment position='end'>
+									<IconButton
+									  aria-label='toggle password visibility'
+									  onClick={() => { setShowPassword(!showPassword) }}
+									>
+									  {showPassword && <VisibilityIcon />}
+									  {!showPassword && <VisibilityOffIcon />}
+									</IconButton>
+								  </InputAdornment>
+								),
+							  }}
 						/>
 						{errors.includes('username') && <Typography variant="subtitle2" align="center" color="error">{'Nom d\'utilisateur incorrect'}</Typography>}
 						{errors.includes('password') && <Typography variant="subtitle2" align="center" color="error">{'Mot de passe incorrect'}</Typography>}
 						{errors.includes('server') && <Typography variant="subtitle2" align="center" color="error">{'Le serveur à rencontré une erreur, veuillez réessayer'}</Typography>}
+						{errors.includes('emptyUsername') && <Typography variant="subtitle2" align="center" color="error">{'Veuillez saisir un nom d\'utilisateur'}</Typography>}
+						{errors.includes('emptyPassword') && <Typography variant="subtitle2" align="center" color="error">{'Veuillez saisir un mot de passe'}</Typography>}
 						<Button
 							size="large"
 							variant="contained"
 							color="primary"
-							className={classes.button}
+							className={classes.loginButton}
 							onClick={login}
 						>
-							Connexion
+							{loading ? <CircularProgress className={classes.circualProgress} size={27}/> : 'Se connecter'}
 						</Button>
-						<Typography className={classes.link}>
-							<Link
-								href="#"
-								onClick={linkOnClickHandler}
-							>
-								{"I don't have an account. Sign up."}
-							</Link>
-						</Typography>
+						<Button
+							size="small"
+							variant="outlined"
+							color="primary"
+							className={ classes.registerButton }
+							onClick={secondaryButtonOnClickHandler}
+						>
+							{"Inscrivez-vous"}
+						</Button>
 					</FormControl>
 				</Paper>
 			</Slide>

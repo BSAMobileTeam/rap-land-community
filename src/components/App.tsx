@@ -47,7 +47,7 @@ export default function App(props: AppProps) {
 					{
 						formMode === "login" ?
 						<LoginPaper
-							linkOnClickHandler={() => { setFormMode("registration") }}
+							secondaryButtonOnClickHandler={() => { setFormMode("registration") }}
 						/>
 						:
 						<RegistrationPaper
