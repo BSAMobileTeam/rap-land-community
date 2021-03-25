@@ -83,7 +83,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 	} = props
 
 	const updateUsername = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		setErrors(errors.filter(value => value !== 'username'))
+		setErrors(errors.filter(value => value !== 'username' && value !== 'password'))
 		setFormData({
 			...formData,
 			username: event.target.value						
@@ -91,7 +91,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 	}
 
 	const updatePassword = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		setErrors(errors.filter(value => value !== 'password'))
+		setErrors(errors.filter(value => value !== 'password' && value !== 'username'))
 		setFormData({
 			...formData,
 			password: event.target.value,			
@@ -148,7 +148,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 					>
 						<TextField
 							value={formData.username}
-							error={errors.includes('username') || errors.includes('emptyUsername')}
+							error={errors.includes('username') || errors.includes('emptyUsername') || errors.includes('password')}
 							variant="outlined"
 							label="Nom d'utilisateur"
 							className={classes.textField}
@@ -156,7 +156,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 						/>
 						<TextField
 							value={formData.password}
-							error={errors.includes('password') || errors.includes('emptyPassword') }
+							error={errors.includes('password') || errors.includes('emptyPassword') || errors.includes('username')}
 							variant="outlined"
 							label="Mot de passe"
 							type={showPassword ? "text" : "password"}
@@ -176,8 +176,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 								),
 							  }}
 						/>
-						{errors.includes('username') && <Typography variant="subtitle2" align="center" color="error">{'Nom d\'utilisateur incorrect'}</Typography>}
-						{errors.includes('password') && <Typography variant="subtitle2" align="center" color="error">{'Mot de passe incorrect'}</Typography>}
+						{(errors.includes('username') || errors.includes('password')) && <Typography variant="subtitle2" align="center" color="error">{'Nom d\'utilisateur ou mot de passe incorrect'}</Typography>}
 						{errors.includes('server') && <Typography variant="subtitle2" align="center" color="error">{'Le serveur à rencontré une erreur, veuillez réessayer'}</Typography>}
 						{errors.includes('emptyUsername') && <Typography variant="subtitle2" align="center" color="error">{'Veuillez saisir un nom d\'utilisateur'}</Typography>}
 						{errors.includes('emptyPassword') && <Typography variant="subtitle2" align="center" color="error">{'Veuillez saisir un mot de passe'}</Typography>}
@@ -187,6 +186,7 @@ export default function LoginPaper(props: LoginPaperProps) {
 							color="primary"
 							className={classes.loginButton}
 							onClick={login}
+							disabled={errors.length > 1}
 						>
 							{loading ? <CircularProgress className={classes.circualProgress} size={27}/> : 'Se connecter'}
 						</Button>

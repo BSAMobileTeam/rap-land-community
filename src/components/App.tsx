@@ -51,7 +51,7 @@ export default function App(props: AppProps) {
 						/>
 						:
 						<RegistrationPaper
-							linkOnClickHandler={() => { setFormMode("login") }}
+						secondaryButtonOnClickHandler={() => { setFormMode("login") }}
 						/>
 					}
 				</Grid>
